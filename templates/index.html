@@ -1,0 +1,116 @@
+<!doctype html5>
+<html lang="en">
+  <head>
+    <title>North America RS4 Registry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+  </head>
+
+  <body>
+    <div id="main">
+      <header>
+        <h1><div class="rs-box"></div><div class="rs-label">RS4</div> Registry</h1>
+      </header>
+
+      <section id="intro">
+        <p>
+          Welcome to the North America Audi RS4 car registry. The registry was
+          assembled from an initial data set obtained from Audi of America and is
+          being kept updated, as much as possible, from contributions by RS4 owners
+          around the country. If you own an Audi RS4 in the US, feel free to lookup
+          your car (by VIN) and contact <a
+          href="mailto:maxime.petazzoni@bulix.org">Maxime Petazzoni</a> to provide
+          updates!
+        </p>
+      </section>
+
+      <section id="count">
+        <p>
+          There are <span>{{ cars|length }}</span> cars listed in the registry.
+        </p>
+      </section>
+
+      <form name="search">
+        <input type="text" id="search-vin" name="vin" placeholder="Last 8 characters of VIN" />
+        <button type="button" id="search-btn">Search</button>
+      </form>
+
+      <section style="margin: 0 -1em 0 0;">
+      <table id="list">
+        <thead>
+          <th>VIN</th>
+          <th>Model</th>
+          <th>Exterior</th>
+          <th>Interior</th>
+          <th>Trim</th>
+        </thead>
+        <tbody>
+        {%- for car in cars %}
+        <tr class="car {{ loop.cycle('odd', 'even') }}" id="car-{{ car.vin }}"
+          onclick="query('{{ car.vin }}');">
+            <td>{{ car.vin }}</td>
+            <td>{{ car.model_year }}</td>
+            <td title="{{ car.paint_code }}">{{ car.paint_color }}</td>
+            <td title="{{ car.interior_code }}">{{ car.interior_color }}</td>
+            <td title="{{ car.trim_code }}">{{ car.trim }}</td>
+          </tr>
+        {%- endfor %}
+      </table>
+      </section>
+
+      <footer>
+        RS4 Registry; maintained by <a
+        href="mailto:maxime.petazzoni@bulix.org">Maxime Petazzoni</a>. Initial
+        dataset from Jason Stahmann.
+      </footer>
+    </div>
+
+    <div id="result">
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='chibi-min.js') }}"></script>
+    <script type="text/javascript">
+function search() {
+  query($('#search-vin').val().toUpperCase());
+}
+
+function query(vin) {
+  vin = vin.substring(vin.length - 8, vin.length);
+  $('#search-vin').val(vin);
+  window.location.hash = vin;
+
+  $('.car').cls('selected', 'remove');
+  $('#car-' + vin).cls('selected', 'add');
+  window.scroll(0, $('#car-' + vin)[0].offsetTop);
+
+  $().ajax('{{ url_for('car') }}/' + vin, 'GET', function(data, status) {
+    if (status == 200) {
+      $('#result').html(data);
+    } else if (status == 404) {
+      $('#result').html('VIN ' + vin + ' not found.');
+    } else {
+      $('#result').html('error');
+    }
+  });
+}
+
+function trigger_from_hash() {
+  if (window.location.hash != '') {
+    query(window.location.hash.substring(1, window.location.hash.length));
+  }
+}
+
+$().ready(function() {
+  $('#search-vin').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      e.preventDefault();
+      search();
+    }
+  });
+  $('#search-btn').on('click', search);
+  $(window).on('hashchange', trigger_from_hash);
+  trigger_from_hash();
+});
+    </script>
+  </body>
+</html>

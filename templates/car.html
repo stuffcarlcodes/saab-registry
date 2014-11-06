@@ -1,0 +1,43 @@
+<h1>{{ car.vin }}</h1>
+<h2 id="car-subtext">{{ car.model_year }} Audi B7 RS4 {{ car.body_style }}</h2>
+
+<dl>
+  <dt>Paint color</dt>
+  <dd>{{ car.paint_color }} <span class="code">({{ car.paint_code }})</span></dd>
+
+  <dt>Interior color</dt>
+  <dd>{{ car.interior_color }} <span class="code">({{ car.interior_code }})</span></dd>
+
+  <dt>Trim</dt>
+  <dd>{{ car.trim }} <span class="code">({{ car.trim_code }})</span></dd>
+</dl>
+
+<dl>
+  {%- if car.owner %}
+  <dt>Last known owner</dt>
+  <dd>{{ car.owner }}</dd>
+  {%- endif %}
+
+  {%- if car.location %}
+  <dt>Location</dt>
+  <dd>{{ car.location }}</dd>
+  {%- endif %}
+</dl>
+
+<h3>Packages</h3>
+{%- if packages|length == 1 and packages.0.package == 'STD' %}
+No premium package.
+{%- else %}
+<ul>
+{%- for package in packages %}
+  <li>{{ package.description }} <span class="code">({{ package.package }})</span></li>
+{%- endfor %}
+</ul>
+{%- endif %}
+
+{%- if car.notes %}
+<h3>Notes</h3>
+<p id="car-notes">
+{{ car.notes }}
+</p>
+{%- endif %}

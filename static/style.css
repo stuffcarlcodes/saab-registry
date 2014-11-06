@@ -1,0 +1,49 @@
+html { background: #ccc; }
+body { font-family: monospace; font-size: 11pt; background: white; margin: 0; }
+a { text-decoration: none; border-bottom: 1px dotted black; }
+
+#main { float: left; width: 60%; padding: 1%; background: white; }
+h1 { margin-top: 0; }
+.rs-box {
+  width: 0.75em; height: 1em;
+  background: red; border: 1px #888 solid;
+  -webkit-transform: skew(-10deg);
+  float: left; position: relative;
+}
+
+.rs-label {
+  float: left; position: relative; left: -0.4em;
+  font-style: italic; font-weight: bold; letter-spacing: 2px;
+  color: gray;
+}
+
+#main h1 { margin-left: 1em; }
+#intro p { text-align: justify; }
+#count { font-size: large; }
+#count span { font-weight: bold; }
+
+input, button { font-size: large; font-family: monospace;
+  border: 1px #888 solid; padding: 3px; }
+#search-vin { width: 80%; }
+#search-btn { width: 15%; float: right; font-weight: bold; background: #eee; }
+
+#list { border-collapse: collapse; width: 100%; }
+#list th { border-bottom: 1px #888 solid; }
+#list th, td { padding: 2px 3px; text-align: left; }
+#list tr { cursor: pointer; }
+#list tbody tr:hover { background: #ccc; }
+#list .even { background: #eee; }
+#list .selected td { font-weight: bold;
+  padding: 5px 3px;
+  background: #ccc;
+}
+
+#result { float: right; width: 36%; background: #ccc; height: 100%; padding: 1%;
+  position: fixed; right: 0; border-left: 2px #ccc solid; }
+h2 { margin-top: -0.25em; }
+dt { float: left; font-weight: bold; }
+dt:after { content: ':'; }
+dd { margin-left: 30%; margin-bottom: 3px; text-align: justify; }
+span.code { font-size: smaller; color: #888; }
+
+footer { clear: both; color: #888; border-top: 1px #ccc solid; padding: 0.5em 0; }
