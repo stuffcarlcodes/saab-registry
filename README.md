@@ -1,5 +1,3 @@
-# North America Audi B7 RS4 car registry
+# North America Saab registry
 
-Registry of B7 RS4 cars in North America. The initial dataset comes from
-Audi of America and has been kept up-to-date as much as possible by
-contributions from RS4 owners, forum members, etc.
+Registry of all 1981-2011 Saab cars remaining on the road.
